@@ -1,0 +1,8 @@
+dist-newstyle/
+dump/
+.envrc
+*.eventlog
+*.eventlog.html
+*.hp
+lotsalines
+.vscode

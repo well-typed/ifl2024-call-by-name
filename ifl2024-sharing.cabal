@@ -1,0 +1,335 @@
+cabal-version: 3.0
+name:          ifl
+version:       0
+license:       BSD-3-Clause
+license-file:  LICENSE
+author:        Edsko de Vries
+maintainer:    edsko@well-typed.com
+build-type:    Simple
+
+common lang
+  default-language: GHC2024
+
+  ghc-options:
+      -ddump-simpl
+      -ddump-to-file
+      -dsuppress-coercions
+      -dsuppress-coercion-types
+      -dsuppress-core-sizes
+      -dsuppress-idinfo
+      -dsuppress-module-prefixes
+
+      -Wall
+      -Widentities
+      -Wprepositive-qualified-module
+      -Wredundant-constraints
+      -Wunused-packages
+  default-extensions:
+      DeriveAnyClass
+      NoImplicitPrelude
+      UnboxedTuples
+
+library
+  import:         lang
+  hs-source-dirs: lib
+  build-depends:  base >= 4.20 && < 4.21
+
+  exposed-modules:
+      SimplifiedPrelude
+      TryAgain
+      Conduit
+  ghc-options:
+      -fno-worker-wrapper
+      -fno-full-laziness
+      -fno-state-hack
+
+--
+-- Regular use of IO, which variations in ghc flags
+--
+
+executable printSecret-1a
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/printSecret-1
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/printSecret-1a
+      -dno-typeable-binds
+
+executable printSecret-1b
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/printSecret-1
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/printSecret-1b
+      -dno-typeable-binds
+      -fno-full-laziness
+
+executable printSecret-1c
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/printSecret-1
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/printSecret-1c
+      -dno-typeable-binds
+      -fno-state-hack
+      -fno-full-laziness
+
+--
+-- Explicit state passing
+--
+
+executable printSecret-2
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/printSecret-2
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/printSecret-2
+      -dno-typeable-binds
+      -fno-full-laziness
+      -fno-state-hack
+
+executable printSecret-3
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/printSecret-3
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/printSecret-3
+      -dno-typeable-binds
+      -fno-full-laziness
+      -fno-state-hack
+
+--
+-- Line numbering example
+--
+
+executable numberLines-0
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/numberLines-0
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/numberLines-0
+      -dno-typeable-binds
+      -fno-worker-wrapper
+
+executable numberLines-1
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/numberLines-1
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/numberLines-1
+      -dno-typeable-binds
+      -fno-worker-wrapper
+
+executable numberLines-2a
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/numberLines-2
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/numberLines-2a
+      -dno-typeable-binds
+      -fno-worker-wrapper
+
+executable numberLines-2b
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/numberLines-2
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/numberLines-2b
+      -dno-typeable-binds
+      -fno-worker-wrapper
+      -fno-full-laziness
+
+executable numberLines-3a
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/numberLines-3
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/numberLines-3a
+      -dno-typeable-binds
+      -fno-worker-wrapper
+      -fno-full-laziness
+
+executable numberLines-3b
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/numberLines-3
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/numberLines-3b
+      -dno-typeable-binds
+      -fno-worker-wrapper
+
+--
+-- Conduit example
+--
+
+executable conduit-1a
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/conduit-1
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/conduit-1a
+      -dno-typeable-binds
+      -fno-worker-wrapper
+
+executable conduit-1b
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/conduit-1
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/conduit-1b
+      -dno-typeable-binds
+      -fno-worker-wrapper
+      -fno-full-laziness
+
+executable conduit-2
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/conduit-2
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/conduit-2
+      -dno-typeable-binds
+      -fno-worker-wrapper
+
+--
+-- dupIO variants
+--
+
+executable numberLines-4
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/numberLines-4
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/numberLines-4
+      -dno-typeable-binds
+      -fno-worker-wrapper
+  build-depends:
+    , dupIO >= 0.1 && < 0.2
+
+executable conduit-3
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/conduit-3
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/conduit-3
+      -dno-typeable-binds
+      -fno-worker-wrapper
+  build-depends:
+    , dupIO >= 0.1 && < 0.2
+
+executable conduit-4
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/conduit-4
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/conduit-4
+      -dno-typeable-binds
+      -fno-worker-wrapper
+  build-depends:
+    , dupIO >= 0.1 && < 0.2
+
+executable conduit-5
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/conduit-5
+  build-depends:  ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/conduit-5
+      -dno-typeable-binds
+      -fno-worker-wrapper
+  build-depends:
+    , dupIO >= 0.1 && < 0.2
+
+executable conduit-6
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/conduit-6
+  build-depends:  base, ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/conduit-6
+      -dno-typeable-binds
+      -fno-worker-wrapper
+  build-depends:
+    , dupIO >= 0.1 && < 0.2
+
+executable conduit-7
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/conduit-7
+  build-depends:  base, ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/conduit-7
+      -dno-typeable-binds
+      -fno-worker-wrapper
+  build-depends:
+    , dupIO >= 0.1 && < 0.2
+
+executable conduit-8
+  import:         lang
+  main-is:        Main.hs
+  hs-source-dirs: exe/conduit-8
+  build-depends:  base, ifl
+
+  ghc-options:
+      -rtsopts
+      -dumpdir=dump/conduit-8
+      -dno-typeable-binds
+      -fno-worker-wrapper
+  build-depends:
+    , dupIO >= 0.1 && < 0.2
